@@ -39,6 +39,14 @@ def draw_contour_3d(points, sides):
         plt.plot(xs, ys, zs, color="blue")
 
 
+def __generate_range(limit, step):
+    return np.arange(limit + step, step=step)
+
+
+def flatten(list_of_lists):
+    return [val for sublist in list_of_lists for val in sublist]
+
+
 def convex_comb_general(points, limit=1.0, step_arange=0.1, tabs=""):
     """Generates all linear convex combinations of points with the specified precision.
 
@@ -48,8 +56,24 @@ def convex_comb_general(points, limit=1.0, step_arange=0.1, tabs=""):
     :param tabs: indent for debug printing.
     :return: list of points, each represented as np.array.
     """
-    # TODO: Zadanie 4.2: Rekurencyjna implementacja (albo zupełnie własna, rekurencja to propozycja).
-    return []
+
+    coefficients = __generate_range(limit, step_arange)
+    coeff_len = len(coefficients)
+    points_len = len(points)
+    dot_prod = np.array([[p * v for v in coefficients] for p in points])
+
+    def merge(source_index, point, coef):
+        if coef > coeff_len:
+            return []
+        if source_index + 1 >= points_len:
+            return [point] if coef == coeff_len - 1 else []
+        result = []
+        for i, next_point in enumerate(dot_prod[source_index + 1]):
+            result.extend(merge(source_index + 1, [p1 + p2 for p1, p2 in zip(point, next_point)], coef + i))
+        return result
+
+    res = flatten([merge(0, p, i) for i, p in enumerate(dot_prod[0])])
+    return res
 
 
 def convex_comb_triangle_loop(points):
@@ -60,13 +84,13 @@ def convex_comb_triangle_loop(points):
     """
 
     assert len(points) == 3
-    arm_1 = np.linspace(points[0], points[1], 10)
-    arm_2 = np.linspace(points[0], points[2], 10)
-    return np.array([np.linspace(p1, p2, 10) for (p1, p2) in zip(arm_1, arm_2)]).reshape((100, 2))
+    density = 10
+    arm_1 = np.linspace(points[0], points[1], density)
+    arm_2 = np.linspace(points[0], points[2], density)
+    return np.array([np.linspace(p1, p2, density) for (p1, p2) in zip(arm_1, arm_2)]).reshape((density * density, 2))
 
 
 def draw_convex_combination_2d(points, cc_points):
-    # TODO: Zadanie 4.1: Rysowanie wykresu dla wygenerowanej listy punktów (cc_points).
     draw_contour_2d(cc_points, "ro")
     # Drawing contour of the figure (with plt.plot).
     draw_contour_2d(points)
@@ -219,11 +243,11 @@ if __name__ == "__main__":
     draw_triangle_simple_2()
 
     # for task 4.2
-    # draw_triangle_1()
-    # draw_triangle_2()
-    # draw_rectangle()
-    # draw_hexagon()
-    # draw_not_convex()
+    draw_triangle_1()
+    draw_triangle_2()
+    draw_rectangle()
+    draw_hexagon()
+    draw_not_convex()
 
     # for task 4.3
     # draw_tetrahedron()
