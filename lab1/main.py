@@ -1,18 +1,22 @@
 #!/usr/bin/env python
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D # Without this projection='3d' is not recognized
+from mpl_toolkits.mplot3d import Axes3D  # Without this projection='3d' is not recognized
+
 """
 template credits: @iwob
+task completed by Witold Kupś @Azbesciak
 """
 
-def draw_contour_2d(points):
+
+def draw_contour_2d(points, point_style="b-"):
     """Draws contour of the 2D figure based on the order of the points.
 
     :param points: list of numpy arrays describing nodes of the figure.
+    :param point_style: plot type
     """
     xs, ys = zip(points[-1], *points)
-    plt.plot(xs, ys, color="blue")
+    plt.plot(xs, ys, point_style)
 
 
 def draw_contour_3d(points, sides):
@@ -54,14 +58,16 @@ def convex_comb_triangle_loop(points):
     :param points: list of numpy arrays representing nodes of the figure.
     :return: list of points, each represented as np.array.
     """
+
     assert len(points) == 3
-    # TODO: Zadanie 4.1: Implementacja za pomocą pętli obliczenia wypukłych kombinacji liniowych dla wierzchołków trójkąta.
-    return []
+    arm_1 = np.linspace(points[0], points[1], 10)
+    arm_2 = np.linspace(points[0], points[2], 10)
+    return np.array([np.linspace(p1, p2, 10) for (p1, p2) in zip(arm_1, arm_2)]).reshape((100, 2))
 
 
 def draw_convex_combination_2d(points, cc_points):
     # TODO: Zadanie 4.1: Rysowanie wykresu dla wygenerowanej listy punktów (cc_points).
-
+    draw_contour_2d(cc_points, "ro")
     # Drawing contour of the figure (with plt.plot).
     draw_contour_2d(points)
 
@@ -93,9 +99,9 @@ def draw_vector_addition(vectors, coeffs):
     # Drawing the final vector being a linear combination of the given vectors.
     # The third and the fourth arguments of the plt.arrow function indicate movement (dx, dy), not the ending point.
     resultant_vector = sum([c * v for c, v in zip(coeffs, vectors)])
-    plt.arrow(0.0, 0.0, resultant_vector[0], resultant_vector[1], head_width=0.1, head_length=0.1, color="magenta", zorder=4, length_includes_head=True)
+    plt.arrow(0.0, 0.0, resultant_vector[0], resultant_vector[1], head_width=0.1, head_length=0.1, color="magenta",
+              zorder=4, length_includes_head=True)
     plt.margins(0.05)
-
 
 
 def draw_triangle_simple_1():
@@ -106,6 +112,7 @@ def draw_triangle_simple_1():
     draw_convex_combination_2d(points, cc_points)
     plt.show()
 
+
 def draw_triangle_simple_2():
     points = [np.array([-2, 3]),
               np.array([4, 4]),
@@ -113,6 +120,7 @@ def draw_triangle_simple_2():
     cc_points = convex_comb_triangle_loop(points)
     draw_convex_combination_2d(points, cc_points)
     plt.show()
+
 
 def draw_triangle_1():
     points = [np.array([-1, 4]),
@@ -122,6 +130,7 @@ def draw_triangle_1():
     draw_convex_combination_2d(points, cc_points)
     plt.show()
 
+
 def draw_triangle_2():
     points = [np.array([-2, 3]),
               np.array([4, 4]),
@@ -129,6 +138,7 @@ def draw_triangle_2():
     cc_points = convex_comb_general(points)
     draw_convex_combination_2d(points, cc_points)
     plt.show()
+
 
 def draw_rectangle():
     points = [np.array([0, 0]),
@@ -138,6 +148,7 @@ def draw_rectangle():
     cc_points = convex_comb_general(points)
     draw_convex_combination_2d(points, cc_points)
     plt.show()
+
 
 def draw_hexagon():
     points = [np.array([1, -2]),
@@ -150,6 +161,7 @@ def draw_hexagon():
     draw_convex_combination_2d(points, cc_points)
     plt.show()
 
+
 def draw_not_convex():
     points = [np.array([0, 0]),
               np.array([0, 2]),
@@ -160,8 +172,9 @@ def draw_not_convex():
     draw_convex_combination_2d(points, cc_points)
     plt.show()
 
+
 def draw_tetrahedron():
-    sides = [[0,1,2], [1,2,3], [0,2,3], [0,1,3]]
+    sides = [[0, 1, 2], [1, 2, 3], [0, 2, 3], [0, 1, 3]]
     points = [np.array([1.0, 1.0, 1.0]),
               np.array([-1.0, -1.0, 1.0]),
               np.array([-1.0, 1.0, -1.0]),
@@ -170,8 +183,9 @@ def draw_tetrahedron():
     draw_convex_combination_3d(points, cc_points, sides=sides, color_z=True)
     plt.show()
 
+
 def draw_cube():
-    sides = [[0,1,2,3], [4,5,6,7], [0,4,5,1], [2,6,7,3]]
+    sides = [[0, 1, 2, 3], [4, 5, 6, 7], [0, 4, 5, 1], [2, 6, 7, 3]]
     points = [np.array([0.0, 0.0, 0.0]),
               np.array([1.0, 0.0, 0.0]),
               np.array([1.0, 1.0, 0.0]),
@@ -183,6 +197,7 @@ def draw_cube():
     cc_points = convex_comb_general(points, step_arange=0.2)
     draw_convex_combination_3d(points, cc_points, sides=sides, color_z=True)
     plt.show()
+
 
 def draw_vector_addition_ex1():
     v = [np.array([-1, 4]),
@@ -196,7 +211,6 @@ def draw_vector_addition_ex1():
     draw_convex_combination_2d(v, convex_comb_general(v))
     draw_vector_addition(v, coeffs)
     plt.show()
-
 
 
 if __name__ == "__main__":
