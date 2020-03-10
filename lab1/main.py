@@ -117,15 +117,17 @@ def draw_vector_addition(vectors, coeffs):
     for c, v in zip(coeffs, vectors):
         assert isinstance(v, np.ndarray)
         assert isinstance(c, float)
-        # TODO: Zadanie 4.4: Wzorując się na poniższym użyciu funkcji plt.arrow, napisz kod rysujący wektory składowe.
-        # TODO: Każdy kolejny wektor powininen być rysowany od punktu, w którym zakończył się poprzedni wektor.
-        # TODO: Pamiętaj o przeskalowaniu wektorów przez odpowiedni współczynnik.
+        target = v * c
+        plt.arrow(start[0], start[1], target[0], target[1],
+                  head_width=0.1, head_length=0.1, color="green", width=0.01,
+                  zorder=4, length_includes_head=True)
+        start = target
 
     # Drawing the final vector being a linear combination of the given vectors.
     # The third and the fourth arguments of the plt.arrow function indicate movement (dx, dy), not the ending point.
     resultant_vector = sum([c * v for c, v in zip(coeffs, vectors)])
     plt.arrow(0.0, 0.0, resultant_vector[0], resultant_vector[1], head_width=0.1, head_length=0.1, color="magenta",
-              zorder=4, length_includes_head=True)
+              zorder=4, length_includes_head=True, width=0.01)
     plt.margins(0.05)
 
 
@@ -240,19 +242,19 @@ def draw_vector_addition_ex1():
 
 if __name__ == "__main__":
     # for task 4.1
-    # draw_triangle_simple_1()
-    # draw_triangle_simple_2()
+    draw_triangle_simple_1()
+    draw_triangle_simple_2()
 
     # for task 4.2
-    # draw_triangle_1()
-    # draw_triangle_2()
-    # draw_rectangle()
-    # draw_hexagon()
-    # draw_not_convex()
+    draw_triangle_1()
+    draw_triangle_2()
+    draw_rectangle()
+    draw_hexagon()
+    draw_not_convex()
 
     # for task 4.3
     draw_tetrahedron()
     draw_cube()
 
     # for task 4.4
-    # draw_vector_addition_ex1()
+    draw_vector_addition_ex1()
