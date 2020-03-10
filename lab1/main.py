@@ -104,8 +104,9 @@ def draw_convex_combination_3d(points, cc_points, sides=None, color_z=True):
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
-    # TODO: Zadanie 4.3: Zaimplementuj rysowanie wykresu 3D dla cc_points. Możesz dodatkowo zaimplementować kolorowanie względem wartości na osi z.
-
+    cc_points = np.array(cc_points)
+    ax.scatter(cc_points[:, 0], cc_points[:, 1], cc_points[:, 2], c=(cc_points[:, 2] if color_z else None),
+               cmap="cool")
     # Drawing contour of the figure (with plt.plot).
     if sides is not None:
         draw_contour_3d(points, sides)
@@ -239,19 +240,19 @@ def draw_vector_addition_ex1():
 
 if __name__ == "__main__":
     # for task 4.1
-    draw_triangle_simple_1()
-    draw_triangle_simple_2()
+    # draw_triangle_simple_1()
+    # draw_triangle_simple_2()
 
     # for task 4.2
-    draw_triangle_1()
-    draw_triangle_2()
-    draw_rectangle()
-    draw_hexagon()
-    draw_not_convex()
+    # draw_triangle_1()
+    # draw_triangle_2()
+    # draw_rectangle()
+    # draw_hexagon()
+    # draw_not_convex()
 
     # for task 4.3
-    # draw_tetrahedron()
-    # draw_cube()
+    draw_tetrahedron()
+    draw_cube()
 
     # for task 4.4
     # draw_vector_addition_ex1()
