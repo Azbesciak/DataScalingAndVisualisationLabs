@@ -15,29 +15,31 @@ def visualize_transformation(A, vectors):
     """Plots original and transformed vectors for a given 2x2 transformation matrix A and a list of 2D vectors."""
     for i, v in enumerate(vectors):
         # Plot original vector.
-        plt.quiver(0.0, 0.0, v[0], v[1], width=0.008, color="blue", scale_units='xy', angles='xy', scale=1,
-                   zorder=4)
-        plt.text(v[0]/2 + 0.25, v[1]/2, "v{0}".format(i), color="blue")
+        plot_arrow(i, v, color="blue", width=0.008, prefix="v")
 
         # Plot transformed vector.
         tv = A.dot(v)
-        plt.quiver(0.0, 0.0, tv[0], tv[1], width=0.005, color="magenta", scale_units='xy', angles='xy', scale=1,
-                   zorder=4)
-        plt.text(tv[0] / 2 + 0.25, tv[1] / 2, "v{0}'".format(i), color="magenta")
+        plot_arrow(i, tv, color="magenta", width=0.005, prefix="v")
+    set_margins()
+    plot_eigenvectors(A)
+    plt.show()
+
+
+def set_margins():
     plt.xlim([-6, 6])
     plt.ylim([-6, 6])
     plt.margins(0.05)
-    # Plot eigenvectors
-    plot_eigenvectors(A)
-    plt.show()
+
+
+def plot_arrow(i, v, color: str, width: float, prefix: str):
+    plt.quiver(0.0, 0.0, v[0], v[1], width=width, color=color, scale_units='xy', angles='xy', scale=1, zorder=4)
+    plt.text(v[0] / 2 + 0.25, v[1] / 2, f"{prefix}{i}", color=color)
 
 
 def visualize_vectors(vectors, color="green"):
     """Plots all vectors in the list."""
     for i, v in enumerate(vectors):
-        plt.quiver(0.0, 0.0, v[0], v[1], width=0.006, color=color, scale_units='xy', angles='xy', scale=1,
-                   zorder=4)
-        plt.text(v[0] / 2 + 0.25, v[1] / 2, "eigv{0}".format(i), color=color)
+        plot_arrow(i, v, width=0.006, color=color, prefix="eigv")
 
 
 def plot_eigenvectors(A):
@@ -55,7 +57,8 @@ def EVD_decomposition(A):
     K = mat
     Kinv = np.linalg.inv(K)
     EVD = K @ L @ Kinv
-    print(f"{'-' * 60}\nA:   {A.tolist()}\nEVD: {EVD.tolist()}\n\nK-1: {Kinv.tolist()}\nL:   {L.tolist()}\nK:   {K.tolist()}")
+    print(f"{'-' * 60}\nA:   {A.tolist()}\nEVD: {EVD.tolist()}\n\n" +
+          "K-1: {Kinv.tolist()}\nL:   {L.tolist()}\nK:   {K.tolist()}")
     # assert np.allclose(EVD, A), f"EVD: {EVD.tolist()}, A: {A.tolist()}"
 
 
