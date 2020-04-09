@@ -64,44 +64,17 @@ def plot_attractors(A, vectors):
     pass
 
 
-def test_A1(vectors):
-    """Standard scaling transformation."""
-    A = np.array([[2, 0],
-                  [0, 2]])
+def show_eigen_info(matrix: list, vectors):
+    A = np.array(matrix)
     EVD_decomposition(A)
     visualize_transformation(A, vectors)
     plot_attractors(A, vectors)
-
-
-def test_A2(vectors):
-    A = np.array([[-1, 2],
-                  [2, 1]])
-    EVD_decomposition(A)
-    visualize_transformation(A, vectors)
-    plot_attractors(A, vectors)
-
-
-def test_A3(vectors):
-    A = np.array([[3, 1],
-                  [0, 2]])
-    EVD_decomposition(A)
-    visualize_transformation(A, vectors)
-    plot_attractors(A, vectors)
-
-
-def test_A4(vectors):
-    A = np.array([[2, -1],
-                  [1, 4]])
-    EVD_decomposition(A)
-    visualize_transformation(A, vectors)
-    plot_attractors(A, vectors)
-
 
 
 if __name__ == "__main__":
     vectors = vectors_uniform(k=8)
-    test_A1(vectors)
-    test_A2(vectors)
-    test_A3(vectors)
+    show_eigen_info([[2, 0], [0, 2]], vectors)
+    show_eigen_info([[-1, 2], [2, 1]], vectors)
+    show_eigen_info([[3, 1], [0, 2]], vectors)
     # Here assertion fails. (?)
-    test_A4(vectors)
+    show_eigen_info([[2, -1], [1, 4]], vectors)
