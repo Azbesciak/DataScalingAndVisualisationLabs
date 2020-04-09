@@ -42,10 +42,8 @@ def visualize_vectors(vectors, color="green"):
 
 def plot_eigenvectors(A):
     """Plots all eigenvectors of the given 2x2 matrix A."""
-    # TODO: Zad. 4.1. Oblicz wektory wĹasne A. MoĹźesz wykorzystaÄ funkcjÄ np.linalg.eig
-    eigvec = []
-    # TODO: Zad. 4.1. Upewnij siÄ poprzez analizÄ wykresĂłw, Ĺźe rysowane sÄ poprawne wektory wĹasne (Ĺatwo tu o pomyĹkÄ).
-    visualize_vectors(eigvec)
+    eig = np.linalg.eig(A)
+    visualize_vectors(eig[1].T)
 
 
 def EVD_decomposition(A):
