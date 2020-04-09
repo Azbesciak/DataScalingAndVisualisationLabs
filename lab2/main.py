@@ -42,13 +42,21 @@ def visualize_vectors(vectors, color="green"):
 
 def plot_eigenvectors(A):
     """Plots all eigenvectors of the given 2x2 matrix A."""
-    eig = np.linalg.eig(A)
-    visualize_vectors(eig[1].T)
+    _, eig = np.linalg.eig(A)
+    visualize_vectors(eig.T)
 
 
 def EVD_decomposition(A):
-    # TODO: Zad. 4.2. UzupeĹnij funkcjÄ tak by obliczaĹa rozkĹad EVD zgodnie z zadaniem.
-    pass
+    """
+    https://stackoverflow.com/questions/50487118/eigendecomposition-makes-me-wonder-in-numpy
+    """
+    eig, mat = np.linalg.eig(A)
+    L = np.diag(eig)
+    K = mat
+    Kinv = np.linalg.inv(K)
+    EVD = K @ L @ Kinv
+    print(f"{'-' * 60}\nA:   {A.tolist()}\nEVD: {EVD.tolist()}\n\nK-1: {Kinv.tolist()}\nL:   {L.tolist()}\nK:   {K.tolist()}")
+    # assert np.allclose(EVD, A), f"EVD: {EVD.tolist()}, A: {A.tolist()}"
 
 
 def plot_attractors(A, vectors):
@@ -95,4 +103,5 @@ if __name__ == "__main__":
     test_A1(vectors)
     test_A2(vectors)
     test_A3(vectors)
+    # Here assertion fails. (?)
     test_A4(vectors)
