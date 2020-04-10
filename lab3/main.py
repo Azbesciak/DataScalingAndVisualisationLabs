@@ -64,7 +64,7 @@ def EVD_decomposition(A):
     Kinv = np.linalg.inv(K)
     EVD = K @ L @ Kinv
     print(f"{'-' * 60}\nA:   {A.tolist()}\nEVD: {EVD.tolist()}\n\n" +
-          "K-1: {Kinv.tolist()}\nL:   {L.tolist()}\nK:   {K.tolist()}")
+          f"K-1: {Kinv.tolist()}\nL:   {L.tolist()}\nK:   {K.tolist()}")
     # assert np.allclose(EVD, A, equ_eps), f"EVD: {EVD.tolist()}, A: {A.tolist()}"
 
 
