@@ -1,0 +1,3 @@
+[submodule "swd_labs"]
+	path = swd_labs
+	url = https://github.com/iwob/swd_labs.git
