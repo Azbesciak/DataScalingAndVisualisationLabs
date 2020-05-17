@@ -6,12 +6,12 @@ Sprawozdanie dotyczy zadania nr 4.1, w którym należy porównać wybrane metody
 [Treść zadania](https://www.cs.put.poznan.pl/ibladek/students/skaiwd/lab5/zadania_mds.pdf) oraz [kod](./main.py).
 
 #### Zastosowane metody
- - [Isomap](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html) w wariantach dla n = 3, 5 oraz 7
+ - [Isomap](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html) w wariantach dla *n = 3*, *5* oraz *7*
  - [PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)
  - [MDS](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html) z pakietu sci-kit,
  - [T-SNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html)
  - [SpectralEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html) jako metoda dodatkowa.
- - [LocallyLinearEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html) z n = 5 (domyślna wartość)
+ - [LocallyLinearEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html) z *n = 5* (domyślna wartość)
  
 Z racji na wykorzystanie w częsci metod elementu losowości w celu lepszej wizualizacji były one uruchamiane dwukrotnie, z wykorzystaniem innego ziarna.
  
@@ -49,7 +49,7 @@ Daleko od nich położona jest również Lada. Dane wyglądają nastepująco:
 | Saab 9 3S | 9.7 | 11.0 | **85.352** | 8 |
 | Lada Samara | 7.2 | 13.0 | **24.9** | *2* |
 
-Megane faktycznie ma zbiżone parametry do Cordoby. Saab bardzo od nich nie odbiega poza kryterium *`C4`*,
+Megane faktycznie ma zbiżone parametry do Cordoby. Saab bardzo od nich nie odbiega poza kryterium `C4`,
 które prawdopodobnie robi różnice. Lada natomiast odbiega zarówno na `C4` w dół, jak i `C5`
 Dodajmy do porównania Volkswagena Golfa, który jest po środku drogi między Ladą a Saabem:
 
@@ -60,14 +60,14 @@ Dodajmy do porównania Volkswagena Golfa, który jest po środku drogi między L
 Wartość na atrybucie C4 znajduje się pomiędzy Ladą a Saabem, podobnie jak na `C5`.
 Na `C1` i `C2` wartości są bliższe Megane i Cordobie; mimo to znalazł się bliżej Saaba i Lady.
 
-Jeśli z kolei spojrzymy na Isomap z n = 3 zaobserwujemy, że Megane, Seat i Golf są bardzo blisko siebie.
+Jeśli z kolei spojrzymy na Isomap z *n = 3* zaobserwujemy, że Megane, Seat i Golf są bardzo blisko siebie.
 Lada jest wciąż daleko od nich wszystkich. Ciekawe jest to, że o ile wcześniej Corrola była stosunkowo blisko Lady, teraz są na przeciwległym końcu wykresu.
 
 | C1 | C2 | C3 | C4 | C5 |
 | :--- | :--- | :--- | :--- | :--- |
 | Toyota Corrola | 7.7 | 10.2 | 50.358 | 4 |
 
-Natomiast dna *n = 7* wykres dużo bardziej przypomina ten dla n = 5. Widać więc zastosowanie reguły minimalnej liczby podobnych przykładów - im mniejsze *n*,
+Natomiast dna *n = 7* wykres dużo bardziej przypomina ten dla *n = 5*. Widać więc zastosowanie reguły minimalnej liczby podobnych przykładów - im mniejsze *n*,
 tym bliżej znajdują się siebie przykłady (mniej potrzeba, aby utworzyły skupisko).
 
 Dla zbioru Swiss roll przykład Isomap wydaje się być również ciekawy - wartości większych n sprawiają, że spirala jest bardziej rozwinięta przypominając ciągłą
@@ -154,7 +154,7 @@ jednak zestawiając je ze sobą można zauważyć, że w zbiorze są dużo bardz
 | Seat Cordoba | 8.3 | 10.9 | 44.99 | 8 |
 | **Różnica** | **1.6** | **0.1** | **3.91** | **1** |
 
-Dla random state = 1 wyniki są bardziej zagęszczone, choć bliżej Civica wciąż pozostaje Golf
+Dla *random state = 1* wyniki są bardziej zagęszczone, choć bliżej Civica wciąż pozostaje Golf
 
 | C1 | C2 | C3 | C4 | C5 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -241,5 +241,5 @@ Patrząc na atrybut `rich` można się zastnawiać ile te dane mają wspólnego 
 #### Podsumowanie
 Po analizie można stwierdzić, że najlepiej swoje zadanie zrealizował algorytm Isomap - konieczne jednak jest dobranie odpowiedniego rozmiaru sąsiedztwa.
 Niestety pomimo ciekawego algorytmu Spectral Embedding nie spełnił oczekiwań. Locally Linear Embedding również nie wyszedł najlepiej,
-choć jak pokazuje zestawienie na stronie scikit możliwe, że jest to kwestia szczęścia (random state), podobnie jak w przypadku t-SNE.
+choć jak pokazuje zestawienie na stronie scikit możliwe, że jest to kwestia szczęścia *(random state)*, podobnie jak w przypadku t-SNE.
 Podobnie można powiedzieć o PCA i MDS ze scikit, które owocowały w rzucie również przedstawiającym podobieństwo, jednak należy zauważyć, że można oczekiwać więcej.
