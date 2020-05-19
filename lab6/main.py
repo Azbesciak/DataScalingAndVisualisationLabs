@@ -4,13 +4,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import svd
 
+CUSTOM_SVD = "custom"
+LIB_SVD = "library"
+AVAILABLE_SVD = [CUSTOM_SVD, LIB_SVD]
+
 
 def get_input_params():
     parser = argparse.ArgumentParser()
     parser.add_help = True
     parser.add_argument("-f", "--file", help="path to the image", required=True)
     parser.add_argument("-out", help="output image path")
-    parser.add_argument("-svd", help="SVD implementation to use", choices=["custom", "scikit"], default="custom")
+    parser.add_argument("-svd", help="SVD implementation to use", choices=AVAILABLE_SVD, default=AVAILABLE_SVD[0])
     parser.add_argument("-k", help="number of singular values used for compression", type=int)
     return parser.parse_args()
 
@@ -45,7 +49,7 @@ def compress(image: np.array, method: str, k: int or None):
     original_shape = image.shape
     if len(original_shape) == 3:
         image = image.reshape((original_shape[0], original_shape[1] * 3))
-    reconst_matrix = scikit_svg(image, k) if method == "scikit" else custom_svg(image, k)
+    reconst_matrix = scikit_svg(image, k) if method == LIB_SVD else custom_svg(image, k)
     if len(original_shape) == 3:
         reconst_matrix = reconst_matrix.reshape(original_shape)
     return reconst_matrix
