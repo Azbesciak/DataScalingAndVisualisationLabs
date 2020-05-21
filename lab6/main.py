@@ -26,7 +26,7 @@ def make_result_presentation(result, output_path):
     if output_path is None:
         plt.show()
     else:
-        plt.savefig(params.out, bbox_inches='tight', pad_inches=0)
+        plt.savefig(output_path, bbox_inches='tight', pad_inches=0)
 
 
 def read_input_image(file_path: str):
