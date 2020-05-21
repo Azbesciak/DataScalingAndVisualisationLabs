@@ -36,13 +36,50 @@ def read_input_image(file_path: str):
     return image
 
 
+def recreate_image(U: np.array, s: np.array, V: np.array, k: int = None):
+    return np.dot(U[:, :k], np.dot(s[:k, :k], V[:k, :]))
+
+
 def scikit_svg(image: np.array, k: int) -> np.array:
     U, s, V = svd(image, full_matrices=False)
-    return np.dot(U[:, :k], np.dot(np.diag(s[:k]), V[:k, :]))
+    return recreate_image(U, np.diag(s), V, k)
+
+
+def pseudo_reverse(mat: np.array) -> np.array:
+    min_val = np.min(mat.shape)
+    trimmed = mat[:min_val, :min_val]
+    diagonal = np.diag(trimmed)
+    inverse = np.where(diagonal != 0, 1 / diagonal, 0)
+    res = np.diag(inverse)
+    return res
+
+
+def evd(image: np.array) -> np.array:
+    eig, mat = np.linalg.eigh(image)
+    sorted_indices = eig.argsort()[::-1]
+    eig = eig[sorted_indices]
+    mat = mat[:, sorted_indices]
+    L = np.diag(eig)
+    K = mat
+    Kinv = np.linalg.inv(K)
+    return np.real(K), np.real(L), np.real(Kinv)
 
 
 def custom_svg(image: np.array, k: int) -> np.array:
-    return image
+    C = image.T @ image  # columns covariance
+    R = image @ image.T  # rows covariance
+    V, L_v, V_t = evd(C)
+    U, L_u, U_t = evd(R)
+    n, m = image.shape
+    temp = np.sqrt(L_v[:m] if m < n else L_u[:n])
+    s = np.zeros_like(image).astype(np.float64)
+    # error bellow because of invalid dimensions.
+    # if m < n:
+    #     U = U @ s @ V_t @ V_t.T @ pseudo_reverse(s)
+    # else:
+    #     V_t = pseudo_reverse(s) @ U.T @ U @ s @ V_t
+    s[:temp.shape[0], :temp.shape[1]] = temp
+    return recreate_image(U, s, V_t, k)
 
 
 def compress(image: np.array, method: str, k: int or None):
