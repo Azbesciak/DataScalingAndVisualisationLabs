@@ -66,20 +66,32 @@ def evd(image: np.array) -> np.array:
 
 
 def custom_svg(image: np.array, k: int) -> np.array:
-    C = image.T @ image  # columns covariance
-    R = image @ image.T  # rows covariance
-    V, L_v, V_t = evd(C)
-    U, L_u, U_t = evd(R)
-    n, m = image.shape
-    temp = np.sqrt(L_v[:m] if m < n else L_u[:n])
-    s = np.zeros_like(image).astype(np.float64)
-    # error bellow because of invalid dimensions.
-    # if m < n:
-    #     U = U @ s @ V_t @ V_t.T @ pseudo_reverse(s)
-    # else:
-    #     V_t = pseudo_reverse(s) @ U.T @ U @ s @ V_t
+    height, width = image.shape
+    rotated = height > width
+    if rotated:
+        height, width = width, height
+        image = image.T
+
+    R = image @ image.T
+    U, L_u, _ = evd(R)
+    s = prepare_sigma(L_u, width, height)
+    V_t = prepare_v_t(U, s, image, height, width)
+    recreated = recreate_image(U, s, V_t, k)
+    return recreated.T if rotated else recreated
+
+
+def prepare_sigma(L_u, width, height):
+    temp = np.sqrt(L_u[:, :min(width, height)])
+    s = np.zeros((height, width), dtype=np.float64)
     s[:temp.shape[0], :temp.shape[1]] = temp
-    return recreate_image(U, s, V_t, k)
+    return s
+
+
+def prepare_v_t(U, s, image, height, width):
+    s_inv = pseudo_reverse(s)
+    V_t = np.zeros((width, width))
+    V_t[:height, :] = s_inv @ U.T @ image
+    return V_t
 
 
 def compress(image: np.array, method: str, k: int or None):
