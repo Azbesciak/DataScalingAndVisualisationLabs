@@ -85,7 +85,7 @@ def custom_svg(image: np.array, k: int) -> np.array:
 def compress(image: np.array, method: str, k: int or None):
     original_shape = image.shape
     if len(original_shape) == 3:
-        image = image.reshape((original_shape[0], original_shape[1] * 3))
+        image = image.reshape((original_shape[0], original_shape[1] * original_shape[2]))
     reconst_matrix = scikit_svg(image, k) if method == LIB_SVD else custom_svg(image, k)
     if len(original_shape) == 3:
         reconst_matrix = reconst_matrix.reshape(original_shape)
